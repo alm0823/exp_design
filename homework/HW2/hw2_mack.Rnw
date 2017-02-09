@@ -1,0 +1,261 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\begin{document}
+
+<<setup, include = FALSE>>=
+require(xtable)
+require(car)
+@
+        
+\begin{enumerate}
+        
+\item %1
+
+\begin{enumerate}
+\item
+
+Type II Sums of Squares were used.
+
+<<prob1a, include=FALSE>>=
+ins <- data.frame(cbind(c(110,157,194,178,1,2,4,18,880,1256,5276,4355,
+                          495,7040,5307,10050,7,5,29,2),c(rep(1,4),
+                                                          rep(2,4),
+                                                          rep(3,4),
+                                                          rep(4,4),
+                                                          rep(5,4))))
+colnames(ins) <- c("minutes","voltage")
+
+lm_ins <- lm(minutes ~ as.factor(voltage), data = ins)
+aov_ins <- (Anova(lm_ins, type = "II"))
+        
+@
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline \hline
+SSE & \Sexpr{aov_ins$`Sum Sq`[2]}\\
+MSE & \Sexpr{aov_ins$`Sum Sq`[2]/aov_ins$Df[2]}\\
+$SS_{trt}$ & \Sexpr{aov_ins$`Sum Sq`[1]}\\
+$MS_{trt}$ & \Sexpr{aov_ins$`Sum Sq`[1]/aov_ins$Df[1]}\\
+F-stat & \Sexpr{aov_ins$`F value`[1]}\\
+p-value & \Sexpr{aov_ins$`Pr(>F)`[1]}\\
+\hline
+\end{tabular}
+\end{center}
+
+\item %1b
+
+Let i and j index the 1-5 voltage levels.
+
+$H_{0}$: $\mu_{i} = \mu_{j}$ for all i $\neq$ j
+
+$H_{A}$: at least one $\mu_{i} \neq \mu_{j}$ for all i $\neq$ j
+
+\item %1c
+
+Below are the five sample variances.
+<<prob1c, results = 'asis', echo = FALSE>>=
+mean_ins <- tapply(ins$minutes,as.factor(ins$voltage), mean)
+ins$voltage <- as.factor(ins$voltage)
+s21 <- sum((ins$minutes[1:4] - mean_ins[1])^2)/3
+s22 <- sum((ins$minutes[5:8] - mean_ins[2])^2)/3
+s23 <- sum((ins$minutes[9:12] - mean_ins[3])^2)/3
+s24 <- sum((ins$minutes[13:16] - mean_ins[4])^2)/3
+s25 <- sum((ins$minutes[17:20] - mean_ins[5])^2)/3
+
+df_s2 <- NULL
+df_s2 <- data.frame(c(s21,s22,s23,s24,s25))
+  rownames(df_s2) <- c("$s^{2}_{1}$", "$s^{2}_{2}$", 
+                     "$s^{2}_{3}$", "$s^{2}_{4}$",
+                     "$s^{2}_{5}$")
+colnames(df_s2) <- " "
+print(xtable(df_s2, align = "||l|l||"), sanitize.text.function=function(x){x}, include.colnames= FALSE)
+
+@
+
+\item %1d
+
+Below are diagnostic plots.
+
+<<prob1d, fig.width=4, fig.height = 4, echo = FALSE>>=
+plot(lm_ins$residuals,predict(lm_ins), xlab = "Residuals", ylab = "Predicted", main = "Insulating Material Resids vs. Predicted")
+@
+
+<<prob1dx, fig.width = 6, fig.height = 8, echo = FALSE>>=
+
+par(mfrow=c(3,1))
+plot(lm_ins, which = 1)
+plot(lm_ins, which = 2)
+
+hist(lm_ins$residuals, main = "Histogram of Residuals")
+
+
+@
+
+The constant variance assumption is the most concerning violation, but the normal Q-Q plot also shows the tails of residuals are more extreme than would be expected under normality. Without correcting for the non-constant variance, the p-value from the F-test will be too small because there is extra variation we aren't accounting for, making us more likely to find evidence of significant differences that do not exist.
+
+\item %1e
+The constant variance assumption violation is the most concerning, and without any more work, I would most likely not report these results. If I {\it were} to make a conclusion, it would be there is strong evidence the mean failure time differs between at least two voltage levels.
+\end{enumerate}
+
+\item %2
+
+\begin{enumerate}
+\item %2a
+Assume $\tau_{2}$ = 0.
+
+<<prob2a, echo = FALSE>>=
+df <- data.frame(cbind(c(24,28,37,30,37,44,31,35,42,47,52,38), c(rep(20,4), rep(30,4), rep(40,4))))
+colnames(df) <- c("y", "x")
+
+x <- matrix(c(rep(1,12), rep(1,4), rep(0,8), rep(0,4), rep(0,4), rep(1, 4)), nrow = 12, ncol = 3, byrow = FALSE)
+xtx <- t(x)%*%x
+
+xtx_inv <- solve(xtx)
+
+xty <- t(x)%*% matrix(df$y,nrow=length(df$y),ncol=1)
+
+ols <- xtx_inv %*% xty
+
+@
+
+X = $\begin{bmatrix}
+ 1 & 1 & 0\\
+ 1 & 1 & 0\\
+ 1 & 1 & 0\\
+ 1 & 1 & 0\\
+ 1 & 0 & 0\\
+ 1 & 0 & 0\\
+ 1 & 0 & 0\\
+ 1 & 0 & 0\\
+ 1 & 0 & 1\\
+ 1 & 0 & 1\\
+ 1 & 0 & 1\\
+ 1 & 0 & 1\\
+ \end{bmatrix}$
+ 
+ $X^{T}X$ = $\begin{bmatrix}
+ 12 & 4 & 4\\
+ 4 & 4 & 0\\
+ 4 & 0 & 4\\
+ \end{bmatrix}$
+ 
+ $(X^{T}X)^{-1}$ = $\begin{bmatrix}
+ 0.25 & -0.25 & -0.25\\
+ -0.25 & 0.5 & 0.25\\
+ -0.25 & 0.25 & 0.5
+ \end{bmatrix}$
+ 
+ {\bf fix this -- somethings wrong tapply(df$y,as.factor(df$x),mean)}
+ 
+ $X^{T}Y$ = $\begin{bmatrix}
+ 445\\
+ 119\\
+ 179
+ \end{bmatrix}$
+ 
+
+\item %2b
+
+$\theta = \begin{bmatrix}
+\mu \\
+\theta_{dosage=20}\\
+\theta_{dosage=40}
+\end{bmatrix}$
+
+$\mu$ = the true mean observation for dosage 20
+
+$\theta_{dosage = 30}$ = the true change in mean observational units between the mean for dosage 20 and the mean for dosage 30
+
+$\theta_{dosage = 40}$ = the true change in mean observational units between the mean for dosage 20 and the mean for dosage 40
+
+
+\item %2c
+
+$\hat{\theta} = \begin{bmatrix} \Sexpr{ols[1]}\\
+\Sexpr{ols[2]}\\
+\Sexpr{ols[3]}
+\end{bmatrix}$
+
+\item %2d
+{\it Assume} $\Sigma \tau_{i}$ = 0.
+
+<<prob2d, include = FALSE>>=
+x <- matrix(c(rep(1,12), rep(1,4), rep(0,4),
+                  rep(-1,4),rep(0,4),rep(1,4),rep(-1,4)), nrow = 12, ncol = 3, byrow = FALSE)
+xtx <- t(x)%*%x
+xtx_inv <- solve(xtx)
+xty <- t(x) %*% matrix(df$y,nrow=length(df$y),ncol=1)
+
+ols <- xtx_inv%*%xty
+
+@
+
+Let $\tau_{3} = \tau_{1} + \tau_{2}$
+
+X = $\begin{bmatrix}
+ 1 & 1 & 0\\
+ 1 & 1 & 0\\
+ 1 & 1 & 0\\
+ 1 & 1 & 0\\
+ 1 & 0 & 1\\
+ 1 & 0 & 1\\
+ 1 & 0 & 1\\
+ 1 & 0 & 1\\
+ 1 & -1 & -1\\
+ 1 & -1 & -1\\
+ 1 & -1 & -1\\
+ 1 & -1 & -1\\
+ \end{bmatrix}$
+ 
+ $X^{T}X$ = $\begin{bmatrix}
+ 12 & 0 & 0\\
+ 0 & 8 & 4\\
+ 0 & 4 & 8\\
+ \end{bmatrix}$
+ 
+ $(X^{T}X)^{-1}$ = $\begin{bmatrix}
+ 0.083 & 0 & 0\\
+ 0 & 0.167 & -0.083\\
+ 0 & -0.83 & 0.167
+ \end{bmatrix}$
+ 
+ $X^{T}Y$ = $\begin{bmatrix}
+ 445\\
+ -60\\
+ -32
+ \end{bmatrix}$
+ 
+\item
+
+$\theta = \begin{bmatrix}
+\mu\\
+\theta_{dosage=30}\\
+\theta_{dosage=40}
+\end{bmatrix}$
+
+$\mu$ = the true mean observation over all dosages
+
+$\theta_{dosage = 30}$ = the true change in mean observational units between the overall mean and the mean for dosage 30
+
+$\theta_{dosage = 40}$ = the true change in mean observational units between the overall mean and the mean for dosage 40
+
+\item %2f
+
+$\hat{\theta}$ = $\begin{bmatrix}
+\Sexpr{mean(df$y)}\\
+
+\Sexpr{ols[2,1]}\\
+
+\Sexpr{ols[3,1]}
+\end{bmatrix}$
+
+
+\end{enumerate}
+
+Remaining problems are attached.
+
+\end{enumerate}
+\end{document}
