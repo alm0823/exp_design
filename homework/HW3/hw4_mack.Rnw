@@ -1,0 +1,363 @@
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{hyperref}
+\usepackage{amsmath} %for binomial pdf
+\usepackage{parskip} % so that there's space bw paragraphs
+\usepackage{float}
+\usepackage{amsfonts}
+\graphicspath{"~/almhub_0823/exp_design/homework/HW4"}
+
+
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{STAT 541: Experimental Design} % Top left header
+\chead{HW 3} % Top center header
+\rhead{Andrea Mack} % Top right header
+\lfoot{02/10/2017} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+\setlength\parskip{0.5cm}
+\restylefloat{table}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+}
+
+
+%----------------------------------------------------------------------------------------%
+
+
+
+\begin{document}
+
+<<setup, include = FALSE>>=
+require(spdep)
+require(xtable)
+require(knitr)
+require(ifultools)
+require(car)
+opts_chunk$set(echo = TRUE, cache = FALSE, message = FALSE,
+               comment = NA, size = 'footnotesize', width = 80, dev = 'pdf',
+               dev.args = list(family = 'Palatino', pointsize = 11),
+               fig.path = 'figure/', cache.path = 'cache/',
+               fig.align = 'center', fig.height = 3, fig.width = 6.5,
+               show.signif.stars = FALSE)
+options(show.signif.stars = FALSE)
+
+
+@
+
+\begin{enumerate}
+        
+\item %1
+
+Hand written.
+
+\item %2
+
+Hand written.
+
+\item %3
+\begin{enumerate}
+\item %3a
+
+$H_{0}$: $\sigma^{2}_{batch} = 0$
+
+$H_{A}$: $\sigma^{2}_{batch} > 0$
+
+Based on an $F_{4,20}$ statistic of 5.54 and p-value of $<$ 0.0036 there is strong evidence of batch to batch variation.
+
+<<prob3a>>=
+chi.cutL <- pchisq(0.025,20, lower.tail = TRUE)
+chi.cutU <- pchisq(0.975,20, lower.tail = TRUE)
+
+sigma2 <- 0.00483
+sse <- 0.0876
+
+ll <- sse/chi.cutL
+ul <- sse/chi.cutU
+
+ci <- c(sigma2-ll,sigma2+ul)
+
+
+@
+
+$\sigma^{2}$ was estimated to be 0.00438 and the approximate 95\% confidence interval is between \Sepr{ci[1]} and \Sexpr{ci[2]}. That is, the within batch variation calcium content is estimated to be between \Sepr{ci[1]} and \Sexpr{ci[2]} at the 95\% confidence level. 
+
+Note that $\sigma^{2}$ must be positive, but the confidence interval given includes negative values.
+
+\includegraphics{prob3tb}
+
+
+
+\item %3b
+
+$\hat{\sigma^{2}}_{batch}$ = $MS_{batch}$ = 0.024244
+
+$\hat{\sigma^{2}}$ = $MS_{error}$ = 0.00438
+
+$\hat{\sigma^{2}}_{t}$ = $\frac{MS_{batch} - MS_{error}}{5}$ = \Sexpr{(0.024244-0.004838)/5}
+
+\includegraphics{prob3ss}
+
+\item %3c
+
+<<prob3c>>=
+F0L <- pchisq(0.025,5, lower.tail = TRUE)
+F0U <- pchisq(0.975,5,lower.tail = TRUE)
+
+FL <- qf(0.025,4,20)
+FU <- qf(0.975,4,20)
+
+
+chi.cutL4 <- qchisq(0.025,4, lower.tail = TRUE)
+chi.cutU4 <- qchisq(0.975,4, lower.tail = TRUE)
+
+sigma2B <- 0.024244
+sst <- 0.09697600
+
+frac.s <- sigma2B/(sigma2B + sigma2)
+
+llB <- (sst*(1-(FU/F0U)))/5*chi.cutL4
+ulB <- (sst*(1-(FL/F0L)))/5*chi.cutU4
+
+ciB <- c(frac.s-llB,frac.s+ulB)
+
+
+@
+
+The percent of batch to batch variability relative to total variability was \Sexpr{frac.s} with an estimated 95\% confidence interval of between \Sexpr{ciB[1]} and \Sexpr{ciB[2]} percent.
+
+
+
+\item %3d
+
+Although the problem said to do an ANOVA, I fit a random effects model.
+
+It appears there is a slight violation of the normality assumption as the quantiles of the residuals show slight deviations than those expected under normality in the tails. This is not a major concern.
+
+It is reasonable to assume the variation is the same within each batch as shown by the fitted vs. residuals plot.
+
+The problem description said that batches were randomly chosen, which makes them independent.
+
+The problem description did not say the ``five determinations" were randomly chosen, and so observations within each batch may not be independent of other observations in the same batch.
+
+\includegraphics[scale=0.5]{prob3plots}
+
+
+\end{enumerate}
+
+\newpage
+
+\item %4
+\begin{enumerate}
+\item %4a
+
+{\bf MODEL}
+
+$y = \mu + \tau_{1hr} + \tau_{2hr} + \tau_{4hr} + \epsilon$
+
+y: BMD loss
+
+$\mu$: The average BMD loss in the SHAM group
+
+$\tau_{1hr}$: The change in average BMD loss between the SHAM group and the 1hr/day PEMF group
+
+$\tau_{2hr}$: The change in average BMD loss between the SHAM group and the 2hr/day PEMF group
+
+$\tau_{4hr}$: The change in average BMD loss between the SHAM group and the 4hr/day PEMF group
+
+$\epsilon$: random error
+
+{\bf ANOVA ASSUMPTIONS}
+
+$\epsilon_{i} \sim iid N(0,\sigma^{2})$
+
+The errors are independently and normally distributed with a mean of 0 and with the similar variance of $\sigma^{2}$.
+
+\item %4b
+
+Note that assuming $\Sigma \tau_{i}$ = 0 specifies the means model, which is a different parameterization than the effects model written in (a).
+
+
+\includegraphics{estse4b}
+
+\item %4c
+
+With the Normal Q-Q plot we are assessing whether it is reasonable to assume the residuals are normally distributed. There is slight deviation from normality in the upper tail of the distribution, but for the most part it is reasonable to assume normality in the residuals.
+
+\includegraphics{normqq4c}
+
+\item %4d
+
+There is slightly less variation in the residuals from the PEMF1hr/day treatment and the PEMF3hr/day treatment groups, which is particularly noticeable in the PEMF3hr/day treatment group. The variances appear similar enough that the slightly less variable group may be due to random chance and is likely not a concern in terms of the accuracy of ANOVA results interpretations.
+
+\includegraphics{residpred4d}
+
+\item %4e
+
+Higher bone mineral densities are desirable. We are given responses of percent losses in bone mineral density. Bone mineral density is ideal, and so we would like to minimize the percent loss in bone mineral density.
+
+We would like to do a lower tailed test for whether the percentage of BMD loss has decreased.
+
+Using 90\% family-wise confidence intervals, there is no evidence that any of the PEMF treatments reduce the percentage of BMD loss when compared to SHAM.
+
+\includegraphics{prob4e}
+
+\item %4f
+
+At the 90\% confidence level, it is estimated that PEMF1hr/day caused percentage loss in BMD to be 1.3836\% or less on average than those receiving SHAM. The study description did not indicate random sampling, so inference was only made to ``those" in the study.
+\end{enumerate}
+
+\item 
+\begin{enumerate}
+\item 
+
+$\Gamma_{L}$ = -1$\tau_{1hr}$ + 0$\tau_{2hr}$ + 1$\tau_{4hr}$
+
+$\Gamma_{Q}$ = 1$\tau_{1hr}$ + -2$\tau_{2hr}$ + 1$\tau_{4hr}$
+
+\item 
+
+There was no evidence of the linear trend and some evidence of the quadratic trend. The boxplots are consistent with this as the median is slightly above 6 in the PEMF1 and PEMF3 (corresponds to PEMF4) treatments and slightly below 6 in the PEMF2 treatment.
+
+
+\begin{center}
+\includegraphics{prob2g1}
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.5]{boxplots1}
+\end{center}
+
+\item 
+
+If I had used all treatment groups in the analysis, $SS_{L} + SS_{Q} \neq SS_{trt}$ because there are four treatment groups, we would need to add $SS_{cubic}$ to the linear and quadratic SS as that will completely partition the $SS_{trt}$. However, I omitted the SHAM group from the analysis so the mathematical statement $SS_{L} + SS_{Q} = SS_{trt}$ should be true as there are 3 treatment groups and therefore we can fit up to an order of 2 polynomial model.
+\end{enumerate}
+\item %5
+
+Yes, there is a problem. Using the coefficients for the contrasts that were given in the notes we have to have equally spaced increments of treatments if the treatments are on the continuous scale and we are performing tests of linear and quadratic orthoganol contrasts. In this problem, the treatment increments are on the continuous scale and are not equally spaced.
+
+A side question: Does the order of categorical treatments matter for these coefficients? In problem (4) we treated going from PEMF1hr/day to PEMF2hr/day as the same increment as PEMF2hr/day to PEMF4hr/day when doing the orthoganol trend contrasts, which may not be correct in that case unless that assumption is reasonable. Is that correct?
+
+\item %6
+
+\begin{enumerate}
+
+\item %6a
+
+
+
+The selected transformation was $\lambda$ = 0. Therefore, we should log the response to stabilize the variance. 
+
+\begin{center}
+\includegraphics[scale=0.5]{prob6}
+
+\end{center}
+
+\item %6b
+
+Normality is reasonable, however, of major concern is the violation of homogeneity of variance as one group has much less variable residuals than the others. The p-values from the ANOVA will be too small and we will find significant differences more often than we would expect if the HOV assumption was met.
+
+\includegraphics[scale=0.7]{prob6plots}
+
+<<prob6b, results='asis'>>=
+mat <- read.csv("material.csv")
+mat$failtime.ln <- log(mat$failtime)
+
+mat.mean <- tapply(mat$failtime.ln, as.factor(mat$type),mean)
+mat.s <- data.frame((tapply(mat$failtime.ln, as.factor(mat$type),var)))
+colnames(mat.s) <- "Sample Var"
+rownames(mat.s) <- c("1", "2", "3", "4", "5")
+
+print(xtable(mat.s))
+
+
+lm1 <- lm(failtime.ln~as.factor(type), data = mat)
+
+par(mfrow=c(2,2))
+#plot(lm1)
+@
+
+
+
+\item %6c
+
+Based on an $F_{4,15}$ = 37.657 and a p-value of $<$ 0.001 there is strong evidence that one of the material types has a different mean failure time than the others.
+<<prob6c>>=
+summary(lm1)
+
+anova(lm1)
+@
+
+\end{enumerate}
+
+\item %7
+
+Below we see in the table that the means increase from a to c, however, the 95\% bonferroni adjusted CI for a-b is completely below zero and the 95\% bonferroni adjusted CI for a-c contains zero. These would correspond to rejecting the null of no difference and failing to reject the null of no difference respectively.
+
+<<prob7, results = 'asis'>>=
+set.seed(7)
+a <- rnorm(100,10,5)
+b <- rnorm(1000, 14, 10)
+c <- rnorm(5,12,5)
+
+dat <- data.frame(matrix(0,nrow=length(c(a,b,c)), ncol = 2))
+dat$norm <- c(a,b,c)
+dat$group <- c(rep("a",length(a)), rep("b", length(b)), rep("c",length(c)))
+dat <- data.frame(dat)
+
+lm.dat <- lm(norm~as.factor(group), data = dat)
+#summary(lm.dat)
+
+write.csv(dat, file = "prob7.csv")
+
+tb <- c(mean(a), mean(b), mean(c))
+tb <- data.frame(tb)
+
+rownames(tb) <- c("a", "b", "c")
+colnames(tb) <- c("means")
+
+print(xtable(tb, align = "||l|l||"))
+@
+
+
+
+\includegraphics[scale=0.5]{prob7}
+
+
+
+\end{enumerate}
+\end{document}
