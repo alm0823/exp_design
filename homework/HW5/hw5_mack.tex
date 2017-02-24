@@ -130,9 +130,7 @@ At the $\alpha$ = 0.05 significance level, based on a p-value less than 0.001 th
 \item 
 {\it (2pt) Perform Tukey's test on the fertilizer means. What do you conclude?}
 
-{\bf Tukey's test for additivity or Tukey's family-wise correction for multiple comparisons?}
-
-At the 95\% family wise confidence level using Tukey's adjustment for multiple comparisons, there is strong evidence after accounting for row, average percent coverage from plots with fertilizer E are lower than plots with fertilizers C, A, and D. Similarly, there is strong evidence average percent coverage from plots with fertilizer F are lower than plots with fertilizers A and D and strong evidence average percent coverage from plots with fertilizer C is lower than plots with fertilizer A.
+At the 95\% family wise confidence level using Tukey's adjustment for multiple comparisons, there is strong evidence after accounting for row, average percent coverage from plots with fertilizer E are lower than plots with fertilizers C, A, and D. Similarly, there is strong evidence average percent coverage from plots with fertilizer F are lower than plots with fertilizers A and D and strong evidence average percent coverage from plots with fertilizer C is lower than plots with fertilizer D.
 
 \begin{center}
 \includegraphics{prob1b}
@@ -141,11 +139,18 @@ At the 95\% family wise confidence level using Tukey's adjustment for multiple c
 \item 
 {\it (1pt) Make a normal probability plot of the residuals and a plot of residuals vs predicted values. Comment on the results.}
 
-The residuals vs. predicted plot shows more variability in the center than on the edges, particularly with residuals ranging from 4 to -6 in the center of the plot and ranging from around -2 to 2 on the edges of the plot.
+The residuals vs. predicted plot shows more variability in the center than on the edges, particularly with residuals ranging from 4 to -6 in the center of the plot and ranging from around -2 to 2 on the edges of the plot. The Normal Q-Q plot shows slight curvature, especially on the edges and in the center of the plot. It may not be reasonable to assume HOv nor normality, with HOV being more concerning.
 
-\begin{center}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
 \includegraphics{prob1c}
-\end{center}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\centering
+\includegraphics{rcbdQQ}
+\end{minipage}
+\end{figure}
 
 {\bf CODE FOR RCBD ANALYSIS}
 
@@ -169,6 +174,8 @@ At the $\alpha$ = 0.05 significance level using a latin squares design, based on
 \includegraphics{latin1a}
 \end{center}
 
+\newpage
+
 b)
 
 At the 95\% family-wise confidence level using Tukey's multiple comparison adjustment, with a latin squares design analysis, there was strong evidence the true mean percent coverage from plots with fertilizer E was lower than the true mean covereage from plots fertilized with all other fertilizers. Similarly, there was strong evidence the true mean percent coverage from plots with fertilizer F was lower than the true mean covereage fro plots with fertilizers C, A, and D. There was strong evidence the true mean percent coverage from plots fertilized with fertilier C was lower than the true mean percent coverage from plots fertilized with fertilizer D. There was strong evidence the true mean percent coverage for plots fertilized with fertlizer D was higher than all that from plots fertilized with all other fertilizers.
@@ -177,15 +184,22 @@ At the 95\% family-wise confidence level using Tukey's multiple comparison adjus
 \includegraphics{latin1b}
 \end{center}
 
+\newpage
+
 c)
 
-Though at first glance we see more variation in the center of the residuals than on the edges, looking closer we notice the scale of the residual axis only goes between roughly 2 and -2. While non-constant variance is present, the degree is small as signified by the scale of the residual axis.
+Though at first glance we see more variation in the center of the residuals than on the edges, looking closer we notice the scale of the residual axis only goes between roughly 2 and -2. While non-constant variance is present, the degree is small as signified by the scale of the residual axis. We can visually see the latin squares design analysis from the step-wise nature of the Normal Q-Q plot. While there are slight deviations from normality, they appear less extreme given the step-wise/gridded nature of the residuals.
 
-\begin{center}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
 \includegraphics{latin1c}
-\end{center}
-
-
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\centering
+\includegraphics{latinQQ}
+\end{minipage}
+\end{figure}
 
 {\bf CODE FOR LATIN SQUARES ANALYSIS}
 
@@ -203,7 +217,9 @@ run;
 \item
 {\it (1pt) Identify any significant changes that occurred between analyses.}
 
-Significant changes occured in the multiple comparisons and in the residuals vs. predicted plots. HOV is more reasonably met in the latin squares analysis, and noteable fertlizers D and E resulted in significant difference in mean percent coverage from all other fertilizers.
+Significant changes occured in the multiple comparisons and in the residuals vs. predicted plots. Noteable fertlizers D and E resulted in significant difference in mean percent coverage from all other fertilizers. HOV and normality appear to be more reasonably met in the latin squares analysis.
+
+\newpage
 
 \item 
 {\it (2pt) Calculate the row block and column block means. In terms of a physical context, interpret any patterns (if they exist) across the row and column means.}
@@ -211,8 +227,6 @@ Significant changes occured in the multiple comparisons and in the residuals vs.
 It appears that moving down the rows from 1 to 6 the mean percent coverage increases, as does the row standard deviation with a slight deviation from the increasing pattern.
 
 Column means decrease from columns 4 to 6 and column standard deviations are smallest on the edges (1 and 6) and increase towards the center, being most variable.
-
-{\bf What other physical to go off of?}
 
 \begin{figure}
 \centering
@@ -226,7 +240,14 @@ Column means decrease from columns 4 to 6 and column standard deviations are sma
 \end{figure}
 
 \end{enumerate}
+
+All other problems are hand written. 
+
 \item %2
+
+\item
+
+\item 
 
 \end{enumerate}
 \end{document}

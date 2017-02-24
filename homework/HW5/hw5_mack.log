@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2017.1.29)  20 FEB 2017 19:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2017.1.29)  24 FEB 2017 05:38
 entering extended mode
 **./hw5_mack.tex
 (hw5_mack.tex
@@ -378,7 +378,7 @@ Package pdftex.def Info: prob1a.png used on input line 127.
 <prob1b.png, id=5, 210.03468pt x 293.59688pt>
 File: prob1b.png Graphic file (type png)
  <use prob1b.png>
-Package pdftex.def Info: prob1b.png used on input line 138.
+Package pdftex.def Info: prob1b.png used on input line 136.
 (pdftex.def)             Requested size: 210.03416pt x 293.59615pt.
  [1{C:/Users/Andrea/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
@@ -388,65 +388,75 @@ File: prob1c.png Graphic file (type png)
 Package pdftex.def Info: prob1c.png used on input line 147.
 (pdftex.def)             Requested size: 204.76448pt x 188.95546pt.
 
-<latin1a.png, id=23, 279.29344pt x 88.83188pt>
+<rcbdQQ.png, id=23, 164.11313pt x 152.82094pt>
+File: rcbdQQ.png Graphic file (type png)
+ <use rcbdQQ.png>
+Package pdftex.def Info: rcbdQQ.png used on input line 151.
+(pdftex.def)             Requested size: 164.11272pt x 152.82054pt.
+
+<latin1a.png, id=24, 279.29344pt x 88.83188pt>
 File: latin1a.png Graphic file (type png)
  <use latin1a.png>
-Package pdftex.def Info: latin1a.png used on input line 169.
+Package pdftex.def Info: latin1a.png used on input line 174.
 (pdftex.def)             Requested size: 279.29276pt x 88.83165pt.
- [2 <./prob1c.png> <./latin1a.png>] <latin1b.png, id=34, 180.675pt x 276.28218p
-t>
+ [2 <./prob1c.png> <./rcbdQQ.png> <./latin1a.png>]
+<latin1b.png, id=36, 180.675pt x 276.28218pt>
 File: latin1b.png Graphic file (type png)
-
-<use latin1b.png>
-Package pdftex.def Info: latin1b.png used on input line 177.
+ <use latin1b.png>
+Package pdftex.def Info: latin1b.png used on input line 184.
 (pdftex.def)             Requested size: 180.67455pt x 276.2815pt.
- <latin1c.png, id=35, 158.09062pt x 155.07938pt>
+ [3 <./latin1b.png>] <latin1c.png, id=43, 158.09062pt x 155.07938pt>
 File: latin1c.png Graphic file (type png)
-
-<use latin1c.png>
-Package pdftex.def Info: latin1c.png used on input line 185.
+ <use latin1c.png>
+Package pdftex.def Info: latin1c.png used on input line 196.
 (pdftex.def)             Requested size: 158.09023pt x 155.07898pt.
- [3 <./latin1b.png>]
-<row1.png, id=42, 183.68625pt x 167.87718pt>
-File: row1.png Graphic file (type png)
- <use row1.png>
-Package pdftex.def Info: row1.png used on input line 220.
-(pdftex.def)             Requested size: 183.68578pt x 167.87677pt.
 
-<col1.png, id=43, 185.19188pt x 164.86594pt>
+<latinQQ.png, id=44, 161.85469pt x 150.5625pt>
+File: latinQQ.png Graphic file (type png)
+ <use latinQQ.png>
+Package pdftex.def Info: latinQQ.png used on input line 200.
+(pdftex.def)             Requested size: 161.85428pt x 150.56212pt.
+ [4 <./latin1c.png> <./latinQQ.png>] <row1.png, id=53, 183.68625pt x 167.87718p
+t>
+File: row1.png Graphic file (type png)
+
+<use row1.png>
+Package pdftex.def Info: row1.png used on input line 234.
+(pdftex.def)             Requested size: 183.68578pt x 167.87677pt.
+ <col1.png, id=54, 185.19188pt x 164.86594pt>
 File: col1.png Graphic file (type png)
  <use col1.png>
-Package pdftex.def Info: col1.png used on input line 224.
+Package pdftex.def Info: col1.png used on input line 238.
 (pdftex.def)             Requested size: 185.1914pt x 164.86551pt.
 
 
 AED: lastpage setting LastPage
-[4 <./latin1c.png>] [5 <./row1.png> <./col1.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 232.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 232.
+[5 <./row1.png> <./col1.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 253.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 253.
  (hw5_mack.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 232.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 232.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 253.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 253.
 Package rerunfilecheck Info: File `hw5_mack.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 232.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 253.
  ) 
 Here is how much of TeX's memory you used:
- 6172 strings out of 493333
- 89444 string characters out of 3139191
- 181418 words of memory out of 3000000
- 9605 multiletter control sequences out of 15000+200000
+ 6184 strings out of 493333
+ 89600 string characters out of 3139191
+ 180418 words of memory out of 3000000
+ 9613 multiletter control sequences out of 15000+200000
  6161 words of font info for 25 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,12n,43p,865b,536s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,11n,43p,846b,474s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTe
 X 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on hw5_mack.pdf (5 pages, 184683 bytes).
+Output written on hw5_mack.pdf (5 pages, 167568 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
- 14 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 86 PDF objects out of 1000 (max. 8388607)
+ 16 named destinations out of 1000 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
