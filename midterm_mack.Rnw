@@ -90,17 +90,28 @@ options(show.signif.stars = FALSE)
 
 Neither method suggests a transformation.
 
-\begin{figure}
+The Box Cox procedure on the right suggests a transformation of $\hat{\lambda}$ = 1, which does not change the response.
+
+The log standard deviation was regressed on the log mean. There was no evidence the slope differed from 0 indicating (although we do not accept the null hypothesis that the slope is 0) the transformation suggested is 1-0=1, or again, no transformation.
+
+\begin{verbatim}
+PROC GLM DATA=yset;
+     MODEL logstd=logmean / SS3 solution;
+	 run;
+\end{verbatim}
+
+\begin{figure}[h!]
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{prob1a}
+  \includegraphics[width=1\linewidth]{prob1a}
   \end{minipage}%
 \begin{minipage}{.5\textwidth}
   \centering
-  \includegraphics[width=.4\linewidth]{prob1a1}
+  \includegraphics[width=1\linewidth]{prob1a1}
 \end{minipage}
 \end{figure}
+\FloatBarrier
 
 
 \item 
@@ -113,10 +124,6 @@ $H_{a}$: At least one $|\bar{\epsilon_{j}}|$ differs from the rest for j = 1,...
 
 Based on a p-value of 0.3874 there is no evidence against the equal variance assumption.
 
-\includegraphics{prob1b}
-
-{\bf SAS CODE}
-
 \begin{verbatim}
 proc glm data=in1;
 class tablet;
@@ -124,6 +131,8 @@ model time = tablet /ss3;
 means tablet / hovtest=levene(type=abs);
 run;
 \end{verbatim}
+
+\includegraphics{prob1b}
 
 \item
 
@@ -139,9 +148,9 @@ $\epsilon_{ij}$ = the true random error associated with disingetration time of t
 
 $\epsilon_{ij} \sim N(0,\sigma^{2})$ and are independent
 
-Two diagnostic plots are below. The standardized residuals fall very close the the associated quantiles from the a standard normal distribution, indicating it is reasonable to assume the residuals follow a normal distribution. Trends are not shown in the residuals vs. fitted plot aside from the grouping by treatment and so independence in the residuals is reasonable. Based on the test from 1b assessing HOV and on the residuals vs. fitted plot, HOV is reasonable. Although, looking at the scale, we do see a few standardized residuals quite far above the +/- 3 general scope from the empirical rule.
+Two diagnostic plots are below. The standardized residuals fall very close the the associated quantiles from the a standard normal distribution, indicating it is reasonable to assume the residuals follow a normal distribution. Trends are not shown in the residuals vs. fitted plot aside from the grouping by treatment and also because of the randomization, independence in the residuals is reasonable. Based on the test from 1b assessing HOV and on the residuals vs. fitted plot, HOV is reasonable. Although, looking at the scale, we do see a few standardized residuals quite far above the +/- 2 general scope from the empirical rule.
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
@@ -157,14 +166,44 @@ Based on a p-value of \textless 0.001, there is strong evidence at least one of 
 
 \includegraphics{prob1c}
 
+For the multiple comparisons procedure with G\_TL\_16 as the control, each line of the MC procedure using Dunnett's method is testing:
 
-{\bf FINISH MCP}
+$H_{o}$: there is no difference in the means between each of the other groups individually (each line is a different group) and the control group (G\_TL\_16)
+
+$H_{a}$: there is a difference in the means between the particular group we are on for that line and the control group
+
+\begin{verbatim}
+DATA IN11; 
+DO tablet='AZ_MS12', 'B_LP12', 'C_MS16', 'D_LP16', 'E_MS20', 'F_LP20', 'AG_TL_16';
+DO rep = 1 TO 10; 
+   INPUT time @@; OUTPUT;
+END; END;
+LINES;
+56.3 61.1 60.9 53.8 59.3 56.7 60.8 55.9 60.9 55.1 
+57.3 61.8 60.8 63.5 60.6 58.7 56.5 54.1 64.2 60.8 
+62.1 63.9 67.5 65.7 65.9 61.9 62.2 65.2 70.2 65.7 
+63.6 62.0 64.4 63.1 69.5 68.6 61.8 72.1 60.7 67.1 
+69.5 69.8 70.6 68.6 66.3 64.5 66.8 66.1 71.7 66.5 
+70.8 74.7 72.3 73.6 73.0 67.1 75.8 72.7 70.1 68.0 
+64.7 62.0 65.4 64.0 70.4 69.6 62.7 70.2 62.5 68.5
+;
+proc glm data=in11;
+class tablet;
+model time = tablet /ss3;
+means tablet / DUNNETT alpha=0.05;
+run;
+\end{verbatim}
+
+
+\includegraphics[scale=0.6]{mcdun}
 
 \item 
 
 I did not transform the responses. Normality was reasonable based on the Normal Q-Q plot. The residuals vs. fitted plot showed slight non-constant variance, particularly variation in the D\_LP16 group was slightly larger than the other groups. However, it was not larger by much and may have occured by chance. The HOV assumption was reasonable based on Levene's test. Furthermore, the variation was not increasing as a function of the mean, so standard transformations such as those suggested by the Box Cox method would not fix a non-constant variance assumption. In fact, neither the Box Cox method nor the empirical method suggested a transformation of the response.
 
-{\bf CONTRAST CODE AND OUTPUT}
+\item %1e
+
+{\bf CONTRAST CODE AND OUTPUT (e-h)}
 
 \begin{verbatim}
 proc glm data=in1;
@@ -172,8 +211,8 @@ class tablet;
 model time = tablet;
 means / diff;
 /* note n = 10 balanced */
-contrast 'mean(ms) - mean(lp)' tablet 1 1 1 -1 -1 -1 0;
-contrast 'mean(12) - mean(20)' tablet 1 1 0 0 -1 -1 0;
+contrast 'mean(ms) - mean(lp)' tablet 1/3 -1/3 1/3 -1/3 1/3 -1/3 0;
+contrast 'mean(12) - mean(20)' tablet 1/2 1/2 0 0 -1/2 -1/2 0;
 contrast 'linear ms' tablet -1 0 0 0 1 0 0;
 contrast 'quad ms' tablet  1 0 -2 0 1 0 0;
 contrast 'linear lp' tablet 0 -1 0 0 0 1 0;
@@ -182,9 +221,9 @@ run;
 \end{verbatim}
 
 
-\includegraphics{contrast}
+\includegraphics[scale=0.75]{contrast}
 
-\item
+
 {\it  (1.5pt) Perform a test for the contrast comparing the mean of the three disintegration time
 means for the magnesium stearate (MS) treatments to the mean of the three disintegration time
 means for the three liquid petrolatum (LP) treatments. Be sure to state the hypotheses in terms
@@ -194,7 +233,7 @@ $H_{0}$: $\frac{1}{3}[\mu_{ams12} + \mu_{cms16} + \mu_{ems20}] = \frac{1}{3}[\mu
 
 $H_{a}$: $\frac{1}{3}[\mu_{ams12} + \mu_{cms16} + \mu_{ems20}] \neq \frac{1}{3}[\mu_{blp12} + \mu_{dlp16} + \mu_{flp20}]$
 
-Based on a p-value of \textless 0.0001, there is strong evidence the mean disintegration time of the magesium stearate treatments differed from the mean disintegration time of the liquid petrolatum treatment.
+Based on a p-value of \textless 0.0162, there is strong evidence the mean disintegration time of the magesium stearate treatments differed from the mean disintegration time of the liquid petrolatum treatment.
 
 \item
 {\it  (1.5pt) The researcher wanted to check for a mesh size effect. To do this, she wants to perform a test for the contrast comparing the mean of the two disintegration time means for the 12 mesh granule size treatments to the mean of the two disintegration time means for the 20 mesh granule size treatments. Be sure to state the hypotheses in terms of the means (the mui's) and include the associated p-value for the test.}
@@ -243,7 +282,9 @@ Based on a p-value of 0.6522, there is no evidence of a quadratic relationship b
 
 
 {\bf DRAW LINES IN BOXPLOTS AND DISCUSS}
-\includegraphics{boxplots}
+
+
+\includegraphics[scale=0.5]{boxplots}
 
 
 \end{enumerate}
@@ -254,12 +295,11 @@ Based on a p-value of 0.6522, there is no evidence of a quadratic relationship b
 
 proc glm data=in;
 class glass subject;
-model guess= glass subject;
+model guess= subject glass;
 random subject;
 contrast 'mean(s) - mean(b)' glass 1 -1 -1 0 1 0;
 contrast 'mean(others) - mean(tea)' glass 1 1 1 1 1 -5;
 run;
-
 \end{verbatim}
 
 {\bf REDO WITH BLOCKING VARIABLE FIRST}
@@ -294,7 +334,7 @@ Based on the Bonferroni correction for multiple comparisons, at the family-wise 
 
 {\bf ASSESSING MODEL ASSUMPTIONS}
 
-The HOV assumption is likely violated as the studentized error residuals vs. fitted plot shows increasing variance with increasing mean. Normality in error residuals appears reasonable to assume.
+The HOV assumption is likely violated as the studentized error residuals vs. fitted plot shows increasing variance with increasing mean. Normality in error residuals appears reasonable to assume as the residuals fall close to the line based on theoretical normal quantiles.
 
 \begin{figure}
 \centering
@@ -310,7 +350,7 @@ The HOV assumption is likely violated as the studentized error residuals vs. fit
 
 It is reasonable to assume the variation is the same within each subject.
 
-\includegraphics{level2}
+\includegraphics[scale=0.75]{level2}
 
 Glass placement order was not randomized, so there may be a carry-over effect within each subject, making observations within each subject not independent. Unless students looked at each others' answers, it is reasonable to believe that students' guesses were independent. We also assume random errors in guesses do not depend on random student effects around the overall mean guess.
 
@@ -319,9 +359,18 @@ Glass placement order was not randomized, so there may be a carry-over effect wi
 {\it  (1.5pt) Perform a test for the contrast comparing the mean of the two means for the stemmed
 glasses to the mean of the two means for the blue glasses. Be sure to include the p-value.}
 
-Based on a p-value of 0.1638, there is no evidence of a difference in mean guess between the stemmed and blue glasses.
+Based on a p-value of 0.0002, there is strong evidence of a difference in mean guess between the stemmed and blue glasses.
 
-\includegraphics{contrastp2}
+\begin{verbatim}proc glm data=in;
+class glass subject;
+model guess= subject glass;
+random subject;
+contrast 'mean(s) - mean(b)' glass 1 -1 1 -1 0 0;
+contrast 'mean(others) - mean(tea)' glass 1 1 1 1 1 -5;
+run;
+\end{verbatim}
+
+\includegraphics[scale=0.75]{contrastp2}
 
 \item %2c
 {\it  (1.5pt) Perform a test for the contrast comparing the tea mug mean to the mean of the five means for the other glasses. Be sure to include the p-value.}
@@ -338,15 +387,21 @@ across the six glass treatments. Briefly describe how (if possible) you could ad
 from the data provided. No analysis is required. If you do not believe this can be addressed,
 briefly give a reason why.}
 
-Yes, this can be addressed. The null hypotheses change to:
+Yes, this can be addressed. The {\bf null} hypotheses change to:
 
-1) $H_{o}: \mu_{2TBI} = \mu_{3CBS} = \mu_{4TEA} = \mu_{5SBI} = 9$
+1) $\mu_{2TBI} = 9$
 
-2) $\mu_{1CGS} = 10$
+2) $\mu_{3CBS} = 9$
 
-3) $\mu_{6CBN} = 11$
+3) $\mu_{4TEA} = 9$
 
-The test statistics will be based on the corresponding sample means from each group minus the proposed value in the null hypothesis. This can be done through the contrast statement in SAS.
+4) $\mu_{5SBI} = 9$
+
+5) $\mu_{1CGS} = 10$
+
+6) $\mu_{6CBN} = 11$
+
+I would create confidence intervals and see whether the true value was in the confidence interval for each mean. We can adjust for multiple comparisons if that is necessary.
 
 \end{enumerate}
 
@@ -389,6 +444,7 @@ N = 120 or 20 observations per nitrogen treatment with a balanced design will gi
 
 \item 
 {\it A power of at least .90 for the ANOVA F-test assuming $\alpha$ = .01.}
+
 N = 72 or 12 observations per nitrogen treatment with a balanced design will give a power of 0.94
 
 \item
@@ -432,11 +488,16 @@ and sales in dollars are shown in the following table.
 rowsday <- c(rep(c("Mon", "Tues", "Wed", "Thurs", "Fri"),5))
 colstore <- c(rep("I", 5), rep("II", 5), rep("III", 5), 
               rep("IV", 5), rep("V", 5))
-latin <- c("E", "D", "B", "C", "A", "C", "B", "E", "A", "D", "B", "A", "D", "E", "C","A", "E", "C", "D", "B")
+latin <- c("E", "D", "B", "C", "A", "C", "B", "E", "A", "D", 
+           "B", "A", "D", "E", "C","A", "E", "C", "D", "B")
 
-greek <- c("alpha", "delta", "epsilon", "beta", "gamma", "delta", "beta", "gamma", "epsilon", "alpha", "gamma", "alpha", "beta", "delta", "epsilon", "epsilon", "gamma", "delta", "alpha", "beta", "beta", "epsilon", "alpha", "gamma", "delta")
+greek <- c("alpha", "delta", "epsilon", "beta", "gamma", "delta", 
+           "beta", "gamma", "epsilon", "alpha", "gamma", "alpha", 
+           "beta", "delta", "epsilon", "epsilon", "gamma", "delta", 
+           "alpha", "beta", "beta", "epsilon", "alpha", "gamma", "delta")
 
-dollars <- c(238,149,222,187,65,228,220,295,66,118,158,92,104,242,279,188,169,54,122,278,74,282,213,90,176)
+dollars <- c(238,149,222,187,65,228,220,295,66,118,158,92,104,242,
+             279,188,169,54,122,278,74,282,213,90,176)
 
 p5data <- data.frame(cbind(rowsday, colstore, latin, greek, dollars))
 
@@ -467,7 +528,7 @@ $H_{o}$: $\tau_{A} = \tau_{B} = \tau_{C} = \tau_{D} = \tau_{E}$
 
 $H_{a}$: at least one $\tau_{l} \neq \tau_{l'}$ for $l \neq l'$
 
-Based on a p-value of 0.2828, there is no evidence of a design effect on the true mean price. At the $\alpha$ =  cutoff, design did not have an effect on the true mean price.
+Based on a p-value of 0.2828, there is no evidence of a design effect on the true mean price. At the $\alpha$ =  0.05 cutoff, the design did not have an effect on the true mean price after accounting for the store, shelf, and weekday effects.
 
 \begin{verbatim}
 proc glm data=p5data; 
@@ -486,11 +547,12 @@ run;
 
 Using the 95\% Tukey adjusted family-wise confidence level, there is no evidence the mean cost differs for any of the designs.
 
-{\bf CHECK VALUES INPUT CORRECTLY}
-
-
 \includegraphics{latintuk}
 
 \end{enumerate}
+
+\item
+
+See attached.
 \end{enumerate}
 \end{document}
