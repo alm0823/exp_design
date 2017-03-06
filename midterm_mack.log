@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2017.1.29)  6 MAR 2017 07:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2017.1.29)  6 MAR 2017 08:44
 entering extended mode
 **./midterm_mack.tex
 (midterm_mack.tex
@@ -445,12 +445,12 @@ Package pdftex.def Info: contrast.png used on input line 257.
  [4 <./contrast.png>] <boxplots.png, id=58, 517.935pt x 392.96812pt>
 File: boxplots.png Graphic file (type png)
  <use boxplots.png>
-Package pdftex.def Info: boxplots.png used on input line 320.
+Package pdftex.def Info: boxplots.png used on input line 318.
 (pdftex.def)             Requested size: 258.96686pt x 196.48357pt.
 
 [5]
 ! Extra }, or forgotten $.
-l.356 ...s i from student j, where each $\epsilon}
+l.354 ...s i from student j, where each $\epsilon}
                                                   _{ij}$ is assumed to be in...
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -462,50 +462,50 @@ deleted material, e.g., by typing `I$}'.
 File: cldglasses.png Graphic file (type png)
 
 <use cldglasses.png>
-Package pdftex.def Info: cldglasses.png used on input line 364.
+Package pdftex.def Info: cldglasses.png used on input line 362.
 (pdftex.def)             Requested size: 320.69733pt x 310.15799pt.
  <glasshov.png, id=76, 167.12437pt x 134.00063pt>
 File: glasshov.png Graphic file (type png)
 
 <use glasshov.png>
-Package pdftex.def Info: glasshov.png used on input line 376.
+Package pdftex.def Info: glasshov.png used on input line 374.
 (pdftex.def)             Requested size: 140.92792pt x 113.00548pt.
  <glassnorm.png, id=77, 166.37157pt x 159.59625pt>
 File: glassnorm.png Graphic file (type png)
 
 <use glassnorm.png>
-Package pdftex.def Info: glassnorm.png used on input line 380.
+Package pdftex.def Info: glassnorm.png used on input line 378.
 (pdftex.def)             Requested size: 140.92792pt x 135.19717pt.
  <level2.png, id=78, 499.11469pt x 374.90062pt>
 File: level2.png Graphic file (type png)
 
 <use level2.png>
-Package pdftex.def Info: level2.png used on input line 386.
+Package pdftex.def Info: level2.png used on input line 384.
 (pdftex.def)             Requested size: 374.33508pt x 281.17477pt.
  [7 <./cldglasses.png>] [8 <./glasshov.png> <./glassnorm.png> <./level2.png>] <
 contrastp2.png, id=96, 548.80031pt x 103.88812pt>
 File: contrastp2.png Graphic file (type png)
 
 <use contrastp2.png>
-Package pdftex.def Info: contrastp2.png used on input line 406.
+Package pdftex.def Info: contrastp2.png used on input line 404.
 (pdftex.def)             Requested size: 411.59921pt x 77.9159pt.
  [9 <./contrastp2.png>]
 <power.png, id=107, 185.94469pt x 341.77687pt>
 File: power.png Graphic file (type png)
  <use power.png>
-Package pdftex.def Info: power.png used on input line 470.
+Package pdftex.def Info: power.png used on input line 468.
 (pdftex.def)             Requested size: 185.94421pt x 341.77603pt.
  [10 <./power.png>] <power2.png, id=115, 413.29407pt x 206.27063pt>
 File: power2.png Graphic file (type png)
  <use power2.png>
-Package pdftex.def Info: power2.png used on input line 501.
+Package pdftex.def Info: power2.png used on input line 499.
 (pdftex.def)             Requested size: 413.29305pt x 206.27011pt.
-Package color Info: Redefining color shadecolor on input line 519.
+Package color Info: Redefining color shadecolor on input line 517.
  [11 <./power2.png>]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 523.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 521.
 
-Overfull \hbox (5.75151pt too wide) in paragraph at lines 541--541
+Overfull \hbox (5.75151pt too wide) in paragraph at lines 539--539
 []\OT1/cmtt/m/n/8 Warning in cbind(rowsday, colstore, latin, greek, dollars): n
 umber of rows of result is not a multiple of
  []
@@ -513,29 +513,29 @@ umber of rows of result is not a multiple of
 [12] <latin.png, id=134, 429.85594pt x 156.585pt>
 File: latin.png Graphic file (type png)
  <use latin.png>
-Package pdftex.def Info: latin.png used on input line 598.
+Package pdftex.def Info: latin.png used on input line 596.
 (pdftex.def)             Requested size: 429.85489pt x 156.58461pt.
 
-Overfull \hbox (7.09993pt too wide) in paragraph at lines 598--599
+Overfull \hbox (7.09993pt too wide) in paragraph at lines 596--597
 [][] 
  []
 
 <latintuk.png, id=135, 257.46187pt x 353.82187pt>
 File: latintuk.png Graphic file (type png)
  <use latintuk.png>
-Package pdftex.def Info: latintuk.png used on input line 606.
+Package pdftex.def Info: latintuk.png used on input line 604.
 (pdftex.def)             Requested size: 257.46123pt x 353.821pt.
  [13 <./latin.png>] 
 AED: lastpage setting LastPage
 [14 <./latintuk.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 614.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 614.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 612.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 612.
  (midterm_mack.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 614.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 614.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 612.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 612.
 Package rerunfilecheck Info: File `midterm_mack.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 614.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 612.
  ) 
 Here is how much of TeX's memory you used:
  6283 strings out of 493333
@@ -557,7 +557,7 @@ cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5
 Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program 
 Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on midterm_mack.pdf (14 pages, 562284 bytes).
+Output written on midterm_mack.pdf (14 pages, 585055 bytes).
 PDF statistics:
  203 PDF objects out of 1000 (max. 8388607)
  40 named destinations out of 1000 (max. 500000)
