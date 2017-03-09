@@ -15,8 +15,8 @@ LINES;
 PROC GLM DATA=in PLOTS = (ALL);
      CLASS Trt;
      MODEL BMD_Loss = Trt / SS3 SOLUTION ;
-     MEANS Trt / DUNNETT ('Sham') ALPHA=.10;   <-- Enter U or L after DUNNETT
-
+     MEANS Trt / DUNNETT ('Sham') ALPHA=.10;  
+run;
  *** Estimate statements for sum(tau_i) = 0 constraint';
      ESTIMATE 'PEMF 1h/day' Trt    / DIVISOR= ;
      ESTIMATE 'PEMF 2h/day' Trt    / DIVISOR= ;    <-- Enter values

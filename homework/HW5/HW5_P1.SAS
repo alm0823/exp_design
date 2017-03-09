@@ -8,7 +8,7 @@ DATA IN; INPUT ROW COL FERT $ COVER @@; LINES;
  6 1 B 62   6 2 F 59   6 3 A 66   6 4 D 68   6 5 E 50   6 6 C 56 
  ;
 RUN;
-data p51; input rowday colstore latindesign heightgreek $ dollarsales @@@; lines;
+data p51; input rowday colstore latindesign heightgreek $ dollarsales @@@@; lines;
 1 1 A alpha 238		1 2 C delta 228		1 3 B gamma 158		1 4 D epsilon 188	1 5 A beta 74
 2 1 D delta 149		2 2 B beta 220		2 3 A alpha 92		2 4 C gamma 169		2 5 E epsilon 282
 3 1 B epsilon 222 	3 2 B epsilon 222	3 3 D beta 104		3 4 A delta 54		3 5 C alpha 213
@@ -30,4 +30,18 @@ LINES;
 187 66 242 122 90
 65 118 279 278 176
 ;
+data p5a;
+do rows='Mon','Tues','Wed','Thurs','Fri';
+do columns='I','II','III','IV','V';
+do latindesign='A', 'B', 'C', 'D', 'E';
+input heightgreek $ dollarsales @@; output;
+end; end;
+lines;
+alpha 238		delta 228		gamma 158		epsilon 188		beta 74
+delta 149		beta 220		alpha 92		gamma 169		epsilon 282
+epsilon 222 	epsilon 222		beta 104		delta 54		alpha 213
+beta 187		beta 187		delta 242		alpha	122		gamma	90
+gamma 65		alpha 118		epsilon 279		beta 278		delta	176
+;
+
 

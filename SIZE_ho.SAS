@@ -44,16 +44,8 @@ proc glm data=p5data;
 title 'Graeco-Latin Square';
 class rowsday colstore latin greek;
 model newdollar = rowsday colstore latin greek;
-means rowsday colstore latin greek / adjust=tukey alpha=
+means latin / tukey alpha=0.05;
 /*output out=graecosq r=Residuals p=Predicted;*/
 run;
 /*latin=package design*/
-
-proc glm data=latin;
-     title3 'Graeco-Latin Square (Car Driver Additive Run)';
-     classes car driver additv runn;
-     model yy=car driver additv runn;
-     means car driver additv runn;
-     output out=graecosq r=Residuals p=Predicted;
-     run;
 
