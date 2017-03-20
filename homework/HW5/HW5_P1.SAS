@@ -43,5 +43,3 @@ epsilon 222 	epsilon 222		beta 104		delta 54		alpha 213
 beta 187		beta 187		delta 242		alpha	122		gamma	90
 gamma 65		alpha 118		epsilon 279		beta 278		delta	176
 ;
-
-

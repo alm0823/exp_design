@@ -113,6 +113,114 @@
 
 
 
+\section{Background}
+
+Weaker chicken egg shells are undesirable in appearance for consumers and in handling for distribution and sale companies. Of interest is to compare shell strength between three different brands of eggs. Eggs will be submerged in two concentrations of vinegar solutions. Vinegar contains acetic acid which is known for its properties that break down calcium found in egg shells. The USDA grades chicken eggs (B,A,AA) on both intrinsic and extrinsic factors. Both A and AA grade eggs have the same shell quality requirements. Color also is not a grading factor.
+
+In a $2X3$ crossed factorial design, I will examine the effect of solution on shell strength for different egg brands. Each solution by brand combination will contain 3 replicates. For the analysis, I will treat the two factors as one with six levels.
+
+\subsection{Factors}
+
+1) Brand -- Store brand Grade A (white) , Egglands' best Grade AA (white), Simple truth cage free large brown Grade AA
+Note: Brand may vary depending on sale at the time of purchase.
+
+2) Solution -- 100\% vinegar, 50\% water + 50\% vinegar
+
+Note: It is assumed an egg submerged in a 100\% water solution will not change and I will not test this.
+
+\subsection{Response Variables}
+
+The response variable is a proxy for shell strength. Eggs will be dropped horizontally beginning at 1/2 an inch and increasing by 1/2 inch increments. The response variable is height in inches in which the egg breaks.
+
+
+\begin{center}
+\includegraphics{spreadex}
+\end{center}
+
+
+\section{Protocol}
+
+\subsection{Materials}
+
+The one dozen eggs from each of the three brands of eggs will be bought from a local store. The cheapest white distilled vinegar will also be bought from the same store. Enough of the solutions will be purchased to conduct the experiment. Eggs will be stored in a refrigerator until the experiment begins. 
+
+Solo cups will be used, one for each egg. The amount of solution for each submerged egg will be the same for all eggs. The amount used will be recorded. Plastic wrap will be used to cover the cups to minimize smell and evaporation.
+
+\subsection{Randomization}
+
+Six eggs will randomly be chosen from each carton. The randomization will occur by numbering each egg in 12 value increments from 1 to 36 by carton. A random number generator will sample from 1 to 12 without replacement 6 times, from 13 to 24 without replacement 6 times, and from 25 to 36 without replacement 6 times. Each egg chosen will randomly be assigned a cup. Cups will be filled with solution and labelled so that solution contents are identifiable. Cups will be labelled for solution as follows:
+
+1 = 50\% water + 50\% vinegar
+
+2 = 100\% vinegar
+
+Cups will be labelled 1 to 18. A vector containing six 1's, six 2's, and six 3's will be created, call it {\it solution}. I will sample randomly without replacement from {\it solution} and in the order of occurrence, assign each cup the randomly generated solution and label each cup with either a 1 or 2 label solution as above. Each cup now has a number 1 to 18 and either a 1 or 2 on it.
+
+Recall each egg has a number 1 to 18. Eggs within cartons will be assigned solutions in increasing order. A vector {\it solution2} will be created that contains three 1's and three 2's. Cups will be lined up in increasing order. Assignment will occur by order of types of eggs listed above. Eggs will be assigned to solution (cup) as follows:
+
+For the lowest numbered egg from the store brand carton, a random number from {\it solution2} will be generated. The first cup when lined in increasing order with the corresponding randomly chosen number from {\it solution2} will be assigned for that egg. Numbers will not be replaced and  this method will occur through the largest egg number in the Simple truth egg carton.
+
+\subsection{Experiment}
+
+Each egg will be placed in its respective cup at the same time on the same day. Cups (eggs) will be stored in Andrea's apartment. Cups will be placed in a 6*3 rectangle in no particular order on her kitchen counter away from her stove and water. Environmental temperatures will change throughout the experiment, but will be the same for all cups. Cups will not be placed in direct sunlight and will remain untouched throughout the experiment.
+
+\subsection{Response Data Collection}
+Eggs will be submerged in solution for 30 hours. Eggs will then be removed from solution, dried, and any loose shell will be wiped away gently. Eggs will then be dropped in 1/2 inch increments as described above. Height at which the egg explodes will be the response. Once eggs have exploded, the cups will be cleaned and removed from the experimental area.
+
+\section{Proposed Analyses}
+
+\subsection{Plots}
+
+\begin{itemize}
+
+\item Plot response on y axis, solution type on x axis, color points by egg type.
+
+\item Interaction plot
+\end{itemize}
+
+\subsection{Modelling}
+
+The model used includes one factor with six levels:
+
+\begin{center}
+$y_{ij} = \mu + \beta_{i} + \epsilon_{ij}$
+\end{center}
+
+Parameterization will be based on SAS's constraints.
+
+i = 1,...,6
+
+j = 1,2,3
+
+$y_{ij}$ = height at explosion 
+
+$\mu$ = mean explosion height averaged overall solution and egg type combinations
+
+$\beta_{i}$ = difference in overall mean explosion height and mean explosion height for treatment combination i
+
+$\epsilon_{ij}$ = random error associated with egg ijk
+
+\subsection{Assumptions}
+
+The analysis assumes $\epsilon_{ij} \sim IIDN(0,\sigma^{2})$. The assumptions will be checked by examining the residual vs. predicted plot for non-constant variance and by conducting Levene's test for homogeneity of variance. Normality will be assessed visually using the Normal Q-Q plot. If these assumptions are not reasonably met, transformations of the response suggested by the Box Cox method will be used. By design, the residuals should be independent.
+
+
+\subsection{Tests}
+
+All tests and confidence levels will be based on $\alpha$ = 0.05.
+\begin{itemize}
+\item Test for significance of any interactions. Remove all interactions if none are significant.
+
+\item All pairwise differences are of interest, and so Bonferroni's multiple comparison procedure will be used to order eggs based on shell strength and degree of acidic solution treatment.
+
+\item Compare the difference in mean shell strength for Grade A and Grade AA eggs.
+
+\item Compare the difference in mean shell strength for white and brown eggs.
+
+\item Compare the difference in mean shell strength for store brand and not store brand eggs.
+
+\end{itemize}
+
 \url{https://www.ams.usda.gov/sites/default/files/media/Egg%20Grading%20Manual.pdf}
 
-\end{document}
+\end{document} 

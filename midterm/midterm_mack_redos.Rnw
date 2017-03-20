@@ -1,0 +1,242 @@
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{hyperref}
+\usepackage{amsmath} %for binomial pdf
+\usepackage{parskip} % so that there's space bw paragraphs
+\usepackage{float}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage{undertilde}
+\graphicspath{"~/almhub_0823/exp_design"}
+
+
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{STAT 541: Experimental Design} % Top left header
+\chead{Take Home Mid-term Corrections} % Top center header
+\rhead{Andrea Mack} % Top right header
+\lfoot{03/20/2017} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+\setlength\parskip{0.5cm}
+\restylefloat{table}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+}
+
+
+%----------------------------------------------------------------------------------------%
+
+
+
+\begin{document}
+
+<<setup, include = FALSE>>=
+require(spdep)
+require(xtable)
+require(knitr)
+require(ifultools)
+require(car)
+opts_chunk$set(echo = TRUE, cache = FALSE, message = FALSE,
+               comment = NA, size = 'footnotesize', width = 80, dev = 'pdf',
+               dev.args = list(family = 'Palatino', pointsize = 11),
+               fig.path = 'figure/', cache.path = 'cache/',
+               fig.align = 'center', fig.height = 3, fig.width = 6.5,
+               show.signif.stars = FALSE)
+options(show.signif.stars = FALSE)
+
+
+@
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item {\it Use the sample means and an estimate of $\sigma$ based on the oneway ANOVA to estimate the sample size needed for a CRD to achieve:}
+
+<<prob41, echo = TRUE, eval = FALSE>>=
+
+# create dataset with means
+nitrogen <- c(rep(1,4), rep(2,4), rep(3,4), rep(4,4), rep(5,4), rep(6,4))
+reps <- c(rep(c(1,2,3,4), 6))
+yield <- c(32.1,35.6,41.9,35.4,30.1,31.5,37.1,30.8,
+           25.4,27.4,33.8,31.1,24.1,33.0,35.6,31.4,
+           26.1,31,33.8,31.9,23.2,24.8,26.7,26.7)
+
+p4 <- data.frame(cbind(nitrogen, reps, yield))
+p4$nitrogen <- as.factor(as.character(p4$nitrogen))
+
+p4means <- aggregate(p4$yield, list(p4$nitrogen), mean)
+colnames(p4means) <- c("Nitrogen", "Mean")
+
+#write.csv(p4means, file = "p4means.csv")
+#check
+t1 <- c(32.1,35.6,41.9,35.4)
+t2 <- c(30.1,31.5,37.1,30.8)
+t3 <- c(25.4,27.4,33.8,31.1)
+t4 <- c(24.1,33,35.6,31.4)
+t5 <- c(26.1,31,33.8,31.9)
+t6 <- c(23.2,24.8,26.7,26.7)
+
+apply(data.frame(cbind(t1,t2,t3,t4,t5,t6)), 2, mean)
+
+@
+
+\begin{verbatim}
+PROC GLMPOWER DATA = p4means;
+CLASS nitrogen;
+MODEL mean=nitrogen;
+POWER
+STDDEV = 3.671833
+ALPHA = 0.05 0.01
+NTOTAL = .
+POWER = 0.78 0.79 0.8 0.82 0.86 0.87 0.88 0.89 0.9 0.905 0.91 0.92 0.92 0.93 0.94 0.95;
+RUN;
+\end{verbatim}
+
+\begin{center}
+\includegraphics[scale=1.25]{prob4power}
+\end{center}
+\newpage
+
+\begin{enumerate}
+\item {\it A power of at least 0.95 for the ANOVA F-test assuming $\alpha$ = 0.05.}
+
+Using a total sample size of 36 (6 per group), the observed power is 0.979.
+
+\item {\it A power of at least 0.90 for the ANOVA F-test assuming $\alpha$ = 0.01.}
+
+Using a total sample size of 36 (6 per group), with these parameters set we get a power of 0.901.
+
+\item {\it What would the estimated power for the ANOVA F-test assuming n=2 replicates are to be taken for each treatment and assuming $\alpha$ = 0.05?}
+
+The computed power is 0.317.
+
+\begin{center}
+\includegraphics{p42power}
+\end{center}
+
+
+\begin{center}
+\includegraphics{prob4meandata}
+\end{center}
+
+\end{enumerte}
+
+
+
+\item %5
+{\it  (5pt) Stat 541 Students: Read Section 4.3 (pages 165-168) on Graeco-Latin squares. Consider the
+following experiment. A food processor wants to determine the effect of package design on the sale of
+one of her company's products. She had five designs to be tested: A, B, C, D, E. There were several
+sources of variation, however, whose possible effects were to be accounted for in the study. These
+included (1) day of the week, (2) differences among stores, and (3) effect of shelf height. She decided
+to use a Graeco-Latin square with five weekdays (M, Tu, W, Th, F,) for the row blocks, five stores
+for the column blocks, and five shelf heights for the Greek letter blocks. The experimental design
+and sales in dollars are shown in the following table.
+}
+
+In the original dataset, I had missed one column of the {\it latin} letters, making an incorrect dataset.
+
+<<df>>=
+# create latin squares data set
+
+rowsday <- c(rep(c("Mon", "Tues", "Wed", "Thurs", "Fri"),5))
+colstore <- c(rep("I", 5), rep("II", 5), rep("III", 5), 
+              rep("IV", 5), rep("V", 5))
+latin <- c("E", "D", "B", "C", "A", "C", "B", "E", "A", "D", 
+           "B", "A", "D", "E", "C","D", "C", "A", "B", "E", "A", "E", "C", "D", "B")
+
+greek <- c("alpha", "delta", "epsilon", "beta", "gamma", "delta", 
+           "beta", "gamma", "epsilon", "alpha", "gamma", "alpha", 
+           "beta", "delta", "epsilon", "epsilon", "gamma", "delta", 
+           "alpha", "beta", "beta", "epsilon", "alpha", "gamma", "delta")
+
+dollars <- c(238,149,222,187,65,228,220,295,66,118,158,92,104,242,
+             279,188,169,54,122,278,74,282,213,90,176)
+
+p5data <- data.frame(cbind(rowsday, colstore, latin, greek, dollars))
+
+dim(p5data)
+
+aggregate(as.numeric(as.character(p5data$dollars)), list(as.factor(p5data$rowsday)), mean)
+#write.csv(p5data, file = "p5data.csv")
+
+mon <- c(238,228,158,188,74)
+tues <- c(149,220,92,169,282)
+wed <- c(222,295,104,54,213)
+thurs <- c(187,66,242,122,90)
+fri <- c(65,118,279,278,176)
+c(mean(mon), mean(tues), mean(wed), mean(thurs), mean(fri))
+
+@
+
+\begin{enumerate}
+\item
+{\it Perform an ANOVA. State the null and alternative hypotheses of interest, and your conclusions.
+You can use $\alpha$ = .05 for testing.}
+
+$Y_{ijkl} = \mu + \beta_{i} + \gamma_{j} + \psi_{k} + \tau_{l} + \epsilon_{ijkl}$
+
+Let $\tau_{l}$ represents the effect of design l which is an element of the set A,B,C,D,E.
+
+$H_{o}$: $\tau_{A} = \tau_{B} = \tau_{C} = \tau_{D} = \tau_{E}$
+
+$H_{a}$: at least one $\tau_{l} \neq \tau_{l'}$ for $l \neq l'$
+
+There is strong evidence of a design effect on the true mean price (P\textless0.0001). At the $\alpha$ =  0.05 cutoff, the design did have an effect on the true mean price after accounting for the store, shelf, and weekday effects.
+
+\begin{verbatim}
+proc glm data=p5data1; 
+title 'Graeco-Latin Square';
+class rowsday colstore latin greek;
+model newdollar = rowsday colstore latin greek;
+means latin / tukey alpha=0.05;
+run;
+\end{verbatim}
+
+\includegraphics{latin1}
+
+
+\item
+{\it  Include a Tukey multiple comparison procedure, and your conclusions from it.}
+
+The empirical mean cost increased in the order of A, D, B, C, and the highest mean cost was with design E. Using the 95\% Tukey adjusted family-wise confidence level, there is no evidence the mean cost differed for designs A and D, but strong evidence mean cost for design A  differed from mean cost for designs B, C, and E. There is no evidence the mean cost differed for designs D and B, but strong evidence mean cost for design D differed from mean cost from designs C and E. There is no evidence mean cost for design B differed from that of design C, but strong evidence mean cost for design B differed from mean cost of design E. There is no evidence mean cost of design C differed from mean cost of design E. 
+
+\includegraphics{latintuk1}
+
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
