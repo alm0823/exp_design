@@ -134,6 +134,7 @@
 \hlstd{p4means} \hlkwb{<-} \hlkwd{aggregate}\hlstd{(p4}\hlopt{$}\hlstd{yield,} \hlkwd{list}\hlstd{(p4}\hlopt{$}\hlstd{nitrogen), mean)}
 \hlkwd{colnames}\hlstd{(p4means)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"Nitrogen"}\hlstd{,} \hlstr{"Mean"}\hlstd{)}
 
+\hlcom{#write.csv(p4, file = "p4.csv")}
 \hlcom{#write.csv(p4means, file = "p4means.csv")}
 \hlcom{#check}
 \hlstd{t1} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{32.1}\hlstd{,}\hlnum{35.6}\hlstd{,}\hlnum{41.9}\hlstd{,}\hlnum{35.4}\hlstd{)}
@@ -145,25 +146,37 @@
 
 \hlkwd{apply}\hlstd{(}\hlkwd{data.frame}\hlstd{(}\hlkwd{cbind}\hlstd{(t1,t2,t3,t4,t5,t6)),} \hlnum{2}\hlstd{, mean)}
 \end{alltt}
+\begin{verbatim}
+    t1     t2     t3     t4     t5     t6 
+36.250 32.375 29.425 31.025 30.700 25.350 
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
+
+\begin{verbatim}
+proc glm data=p4meansdata;
+class nitrogen;
+model yield=nitrogen /ss3 solution;
+run;
+\end{verbatim}
+
+\includegraphics{prob4rmse}
 
 \begin{verbatim}
 PROC GLMPOWER DATA = p4means;
 CLASS nitrogen;
 MODEL mean=nitrogen;
 POWER
-STDDEV = 3.671833
+STDDEV = 3.629222
 ALPHA = 0.05 0.01
 NTOTAL = .
-POWER = 0.78 0.79 0.8 0.82 0.86 0.87 0.88 0.89 0.9 0.905 0.91 0.92 0.92 0.93 0.94 0.95;
+POWER = 0.9 0.91 0.92 0.93 0.94 0.95;
 RUN;
 \end{verbatim}
 
 \begin{center}
-\includegraphics[scale=1.25]{prob4power}
+\includegraphics[scale=0.5]{prob4power}
 \end{center}
-\newpage
 
 \begin{enumerate}
 \item {\it A power of at least 0.95 for the ANOVA F-test assuming $\alpha$ = 0.05.}
@@ -175,19 +188,32 @@ Using a total sample size of 36 (6 per group), the observed power is 0.979.
 Using a total sample size of 36 (6 per group), with these parameters set we get a power of 0.901.
 
 \item {\it What would the estimated power for the ANOVA F-test assuming n=2 replicates are to be taken for each treatment and assuming $\alpha$ = 0.05?}
+\end{enumerate}
 
-The computed power is 0.317.
+
+The computed power is 0.324.
+
+\begin{verbatim}
+PROC GLMPOWER DATA = p4means;
+CLASS nitrogen;
+MODEL mean=nitrogen;
+POWER
+STDDEV = 3.629222
+ALPHA = 0.05
+NTOTAL = 12
+POWER = .
+;
+RUN;
+\end{verbatim}
 
 \begin{center}
-\includegraphics{p42power}
+\includegraphics{prob42power}
 \end{center}
 
 
 \begin{center}
 \includegraphics{prob4meandata}
 \end{center}
-
-\end{enumerte}
 
 
 
